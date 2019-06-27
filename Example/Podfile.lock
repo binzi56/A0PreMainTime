@@ -1,0 +1,16 @@
+PODS:
+  - A0PreMainTime (0.1.0)
+
+DEPENDENCIES:
+  - A0PreMainTime (from `../`)
+
+EXTERNAL SOURCES:
+  A0PreMainTime:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  A0PreMainTime: 8c3ff7abf4392a745b6ed1017c6b4e3c96415f0d
+
+PODFILE CHECKSUM: 47e398d7b3e168135169f01e814574f5708fee06
+
+COCOAPODS: 1.6.1

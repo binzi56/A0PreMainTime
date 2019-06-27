@@ -1,0 +1,13 @@
+use_frameworks!
+
+platform :ios, '8.0'
+
+target 'A0PreMainTime_Example' do
+  pod 'A0PreMainTime', :path => '../'
+
+  target 'A0PreMainTime_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

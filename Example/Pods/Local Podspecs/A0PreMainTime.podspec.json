@@ -1,0 +1,22 @@
+{
+  "name": "A0PreMainTime",
+  "version": "0.1.0",
+  "summary": "A short description of A0PreMainTime.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/1533607721@qq.com/A0PreMainTime",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "1533607721@qq.com": "zhangbin@mizhua.com"
+  },
+  "source": {
+    "git": "https://github.com/1533607721@qq.com/A0PreMainTime.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "A0PreMainTime/Classes/**/*"
+}
