@@ -1,0 +1,6 @@
+framework module A0PreMainTime {
+  umbrella header "A0PreMainTime.h"
+
+  export *
+  module * { export * }
+}
