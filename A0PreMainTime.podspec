@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'A0PreMainTime'
-  s.version          = '0.2.1'
+  s.version          = '0.2.2'
   s.summary          = 'accurately measure the pre-main stage'
   s.description      = <<-DESC
 To accurately measure the pre-main phase time and better time measurement.
@@ -19,8 +19,6 @@ To accurately measure the pre-main phase time and better time measurement.
   s.source           = { :git => 'https://github.com/binzi56/A0PreMainTime.git', :tag => s.version.to_s }
   s.ios.deployment_target = '8.0'
   s.requires_arc = true
-
-  s.source_files = 'A0PreMainTime/Classes/**/*'
 
   s.subspec 'PreMainTime' do |sPreMainTime|
       sPreMainTime.vendored_frameworks = 'A0PreMainTime/Framework/*.Framework'
