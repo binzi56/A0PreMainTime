@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'A0PreMainTime'
-  s.version          = '0.2.2'
+  s.version          = '0.2.3'
   s.summary          = 'accurately measure the pre-main stage'
   s.description      = <<-DESC
 To accurately measure the pre-main phase time and better time measurement.
