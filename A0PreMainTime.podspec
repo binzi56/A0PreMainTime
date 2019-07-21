@@ -8,35 +8,25 @@
 
 Pod::Spec.new do |s|
   s.name             = 'A0PreMainTime'
-  s.version          = '0.1.0'
+  s.version          = '0.2.0'
   s.summary          = 'accurately measure the pre-main stage'
-
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!
-
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+To accurately measure the pre-main phase time and better time measurement.
                        DESC
-
   s.homepage         = 'https://github.com/binzi56/A0PreMainTime'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { '1533607721@qq.com' => 'firejadebin@gmail.com' }
+  s.author           = { 'firejadebin' => 'firejadebin@gmail.com' }
   s.source           = { :git => 'https://github.com/binzi56/A0PreMainTime.git', :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
-
   s.ios.deployment_target = '8.0'
+  s.requires_arc = true
 
   s.source_files = 'A0PreMainTime/Classes/**/*'
-  
-  # s.resource_bundles = {
-  #   'A0PreMainTime' => ['A0PreMainTime/Assets/*.png']
-  # }
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.subspec 'A0PreMainTime' do |sA0PreMainTime|
+      sA0PreMainTime.vendored_frameworks = 'A0PreMainTime/Framework/*.Framework'
+  end
+
+  s.subspec 'TimeMonitor' do |sTimeMonitor|
+      sTimeMonitor.source_files = 'A0PreMainTime/TimeMonitor/*.{h,m}'
+  end
 end

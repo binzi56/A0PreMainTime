@@ -1,28 +1,28 @@
 //
-//  DYTimeMonitorManager.m
-//  DYTimeMonitor
+//  ZBTimeMonitorManager.m
+//  TimeMonitor
 //
-//  Created by shuaibin on 2019/6/14.
+//  Created by shuaibin on 2019/7/21.
 //  Copyright © 2019 shuaibin. All rights reserved.
 //
 
-#import "DYTimeMonitorManager.h"
+#import "ZBTimeMonitorManager.h"
 #import "pthread.h"
 #import <UIKit/UIKit.h>
 
-@interface DYTimeMonitorManager ()
+@interface ZBTimeMonitorManager ()
 
-@property (nonatomic, strong) NSMutableDictionary <NSString *, NSMutableArray<DYTimeMonitorModel *> *> *data;
+@property (nonatomic, strong) NSMutableDictionary <NSString *, NSMutableArray<ZBTimeMonitorModel *> *> *data;
 @property (nonatomic) pthread_mutex_t lock;
 
 @end
-@implementation DYTimeMonitorManager
+@implementation ZBTimeMonitorManager
 
 + (instancetype)sharedInstance {
-    static DYTimeMonitorManager* timeMonitor;
+    static ZBTimeMonitorManager* timeMonitor;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        timeMonitor = [[DYTimeMonitorManager alloc] init];
+        timeMonitor = [[ZBTimeMonitorManager alloc] init];
     });
     return timeMonitor;
 }
@@ -44,7 +44,7 @@
 //打点起始方法
 - (void)startWithType:(NSUInteger)type
 {
-    NSMutableArray *startArr = [NSMutableArray arrayWithObject:[DYTimeMonitorModel timeMonitorWithTime:CFAbsoluteTimeGetCurrent() description:@"start note"]];
+    NSMutableArray *startArr = [NSMutableArray arrayWithObject:[ZBTimeMonitorModel timeMonitorWithTime:CFAbsoluteTimeGetCurrent() description:@"start note"]];
     pthread_mutex_lock(&_lock);
     [_data setValue:startArr forKey:[NSString stringWithFormat:@"%lu", (unsigned long)type]];
     pthread_mutex_unlock(&_lock);
@@ -68,11 +68,11 @@
         return -2;
     }else{
         //前一个数据
-        DYTimeMonitorModel *beforeData = [startArr lastObject];
+        ZBTimeMonitorModel *beforeData = [startArr lastObject];
         
         //添加数据
         CFTimeInterval currentTime = CFAbsoluteTimeGetCurrent();
-        [startArr addObject:[DYTimeMonitorModel timeMonitorWithTime:currentTime description:description]];
+        [startArr addObject:[ZBTimeMonitorModel timeMonitorWithTime:currentTime description:description]];
         
         pthread_mutex_lock(&_lock);
         [_data setValue:startArr forKey:[NSString stringWithFormat:@"%lu", (unsigned long)type]];
@@ -83,10 +83,10 @@
 }
 
 //获取某个业务的打点记录
-- (NSMutableArray<NSNumber *> *)getRecordWithType:(NSUInteger)type recordType:(DYTimeMonitorRecordType)recordType
+- (NSMutableArray<NSNumber *> *)getRecordWithType:(NSUInteger)type recordType:(ZBTimeMonitorRecordType)recordType
 {
     
-    NSMutableArray<DYTimeMonitorModel *> *dataArr = [NSMutableArray array];
+    NSMutableArray<ZBTimeMonitorModel *> *dataArr = [NSMutableArray array];
     pthread_mutex_lock(&_lock);
     dataArr = [_data valueForKey:[NSString stringWithFormat:@"%lu", (unsigned long)type]];
     pthread_mutex_unlock(&_lock);
@@ -98,10 +98,10 @@
     
     __block double duringData;
     __block NSMutableArray *resultArr = dataArr;
-    if (DYTimeMonitorRecordTypeMedian == recordType) {
+    if (ZBTimeMonitorRecordTypeMedian == recordType) {
         //记录中间值
         __block double beforeData;
-        [dataArr enumerateObjectsUsingBlock:^(DYTimeMonitorModel *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [dataArr enumerateObjectsUsingBlock:^(ZBTimeMonitorModel *obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if (idx == 0) {
                 duringData = 0.f;
             }else{
@@ -112,10 +112,10 @@
             
             [resultArr addObject:[NSNumber numberWithDouble:duringData]];
         }];
-    }else if(DYTimeMonitorRecordTypeContinuous == recordType){
+    }else if(ZBTimeMonitorRecordTypeContinuous == recordType){
         //记录连续值
-        DYTimeMonitorModel *firstModel = dataArr.firstObject;
-        [dataArr enumerateObjectsUsingBlock:^(DYTimeMonitorModel *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        ZBTimeMonitorModel *firstModel = dataArr.firstObject;
+        [dataArr enumerateObjectsUsingBlock:^(ZBTimeMonitorModel *obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if (idx == 0) {
                 duringData = 0.f;
             }else{
@@ -138,14 +138,14 @@
 //重置某个业务
 - (void)resetWithType:(NSUInteger)type
 {
-    NSMutableArray<DYTimeMonitorModel *> *dataArr = [NSMutableArray array];
+    NSMutableArray<ZBTimeMonitorModel *> *dataArr = [NSMutableArray array];
     pthread_mutex_lock(&_lock);
     [_data setValue:dataArr forKey:[NSString stringWithFormat:@"%lu", (unsigned long)type]];
     pthread_mutex_unlock(&_lock);
 }
 
 //展示某个业务(测试展示数据使用)
-- (void)showRecordWithType:(NSUInteger)type recordType:(DYTimeMonitorRecordType)recordType
+- (void)showRecordWithType:(NSUInteger)type recordType:(ZBTimeMonitorRecordType)recordType
 {
     NSMutableString *output = [[NSMutableString alloc] init];
     NSMutableArray *dataArr = [NSMutableArray array];
@@ -163,15 +163,15 @@
         NSAssert(NO, @"没有设置开始打点方法");
         return;
     }else{
-        DYTimeMonitorModel *firstModel = dataArr.firstObject;
-        DYTimeMonitorModel *lastModel = dataArr.lastObject;
+        ZBTimeMonitorModel *firstModel = dataArr.firstObject;
+        ZBTimeMonitorModel *lastModel = dataArr.lastObject;
         allTime = lastModel.time - firstModel.time;
     }
     
     __block double duringData, beforeData;
-    if (DYTimeMonitorRecordTypeMedian == recordType) {
+    if (ZBTimeMonitorRecordTypeMedian == recordType) {
         //记录中间值
-        [dataArr enumerateObjectsUsingBlock:^(DYTimeMonitorModel *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [dataArr enumerateObjectsUsingBlock:^(ZBTimeMonitorModel *obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if (idx != 0) {
                 duringData = obj.time - beforeData;
                 [output appendFormat:@"#%lu %@ | %.3fs | %.2f%%\n", (unsigned long)idx, obj.des, duringData,  (double)(duringData / allTime) * 100.0];
@@ -179,10 +179,10 @@
             
             beforeData = obj.time;
         }];
-    }else if(DYTimeMonitorRecordTypeContinuous == recordType){
+    }else if(ZBTimeMonitorRecordTypeContinuous == recordType){
         //记录连续值
-        DYTimeMonitorModel *firstModel = dataArr.firstObject;
-        [dataArr enumerateObjectsUsingBlock:^(DYTimeMonitorModel *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        ZBTimeMonitorModel *firstModel = dataArr.firstObject;
+        [dataArr enumerateObjectsUsingBlock:^(ZBTimeMonitorModel *obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if (idx != 0) {
                 duringData = obj.time - beforeData;
                 [output appendFormat:@"#%lu %@ | %.3fs | %.2f%%\n", (unsigned long)idx, obj.des, (obj.time - firstModel.time),  (double)(duringData / allTime) * 100.0];

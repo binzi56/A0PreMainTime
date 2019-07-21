@@ -1,5 +1,5 @@
 //
-//  DYStartTime.h
+//  ZBStartTime.h
 //
 //  Created by shuaibin on 2019/6/12.
 //  Copyright © 2019 shuaibin. All rights reserved.
@@ -22,22 +22,22 @@
 
 NS_ASSUME_NONNULL_BEGIN
 /******************** initializer *************************/
-@interface DYInitializerInfo : NSObject
+@interface ZBInitializerInfo : NSObject
 @property (assign, nonatomic, readonly) CFAbsoluteTime start;
 @property (assign, nonatomic, readonly) CFAbsoluteTime end;
 @property (assign, nonatomic, readonly) CFAbsoluteTime duration;
 @property (copy, nonatomic, readonly) NSString *funcName;
 @end
 
-@interface DYStartTimeInitializerInfo : NSObject
+@interface ZBStartTimeInitializerInfo : NSObject
 @property (assign, nonatomic, readonly) NSTimeInterval start;
 @property (assign, nonatomic, readonly) NSTimeInterval end;
 @property (assign, nonatomic, readonly) NSTimeInterval duration;
-@property (copy, nonatomic, readonly) NSMutableArray<DYInitializerInfo *>*infos;
+@property (copy, nonatomic, readonly) NSMutableArray<ZBInitializerInfo *>*infos;
 @end
 
 /********************* load ***************************/
-@interface DYLoadInfo : NSObject
+@interface ZBLoadInfo : NSObject
 @property (assign, nonatomic, readonly) SEL sel;   //load方法SEL
 @property (copy, nonatomic, readonly) NSString *clsname;   //类名
 @property (copy, nonatomic, readonly) NSString *catname;   //分类名 比如:NSObject + cat;(后面的cat为分类名)
@@ -46,20 +46,20 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readonly) CFAbsoluteTime duration;
 @end
 
-@interface DYLoadInfoWrapper : NSObject
+@interface ZBLoadInfoWrapper : NSObject
 @property (assign, nonatomic, readonly) Class cls;
-@property (copy, nonatomic, readonly) NSArray <DYLoadInfo *> *infos;
+@property (copy, nonatomic, readonly) NSArray <ZBLoadInfo *> *infos;
 @end
 
-@interface DYStartTimeLoadInfo : NSObject
+@interface ZBStartTimeLoadInfo : NSObject
 @property (assign, nonatomic, readonly) NSTimeInterval start;
 @property (assign, nonatomic, readonly) NSTimeInterval end;
 @property (assign, nonatomic, readonly) NSTimeInterval duration;
-@property (copy, nonatomic, readonly) NSMutableArray <DYLoadInfoWrapper *> *infos;
+@property (copy, nonatomic, readonly) NSMutableArray <ZBLoadInfoWrapper *> *infos;
 @end
 
 /********************* __attribute__((constructor)) ***************************/
-@interface DYStartTimeAttributeConstructorInfo : NSObject
+@interface ZBStartTimeAttributeConstructorInfo : NSObject
 @property (assign, nonatomic, readonly) NSTimeInterval start;
 @property (assign, nonatomic, readonly) NSTimeInterval end;
 @property (assign, nonatomic, readonly) NSTimeInterval duration;
@@ -67,11 +67,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 /******************** 外层暴露方法 ****************************/
 //load
-extern const DYStartTimeLoadInfo *loadInfo;
+extern const ZBStartTimeLoadInfo *loadInfo;
 //initializer
-extern DYStartTimeInitializerInfo *initializerTimeInfo;
+extern ZBStartTimeInitializerInfo *initializerTimeInfo;
 //__attribute__((constructor))
-extern DYStartTimeAttributeConstructorInfo *attributeConstructorInfoTimeInfo;
+extern ZBStartTimeAttributeConstructorInfo *attributeConstructorInfoTimeInfo;
 
 //exe(进程开始时间)
 extern NSTimeInterval exeStartTime;
@@ -85,7 +85,7 @@ extern NSString *printLoadInfo(void);
 //__attribute__((constructor))
 extern NSString *printAttributeConstructorInfo(void);
 
-@interface DYStartTime : NSObject
+@interface ZBStartTime : NSObject
 
 + (NSTimeInterval)processStartTime;
 

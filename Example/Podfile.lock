@@ -1,5 +1,9 @@
 PODS:
-  - A0PreMainTime (0.1.0)
+  - A0PreMainTime (0.2.0):
+    - A0PreMainTime/A0PreMainTime (= 0.2.0)
+    - A0PreMainTime/TimeMonitor (= 0.2.0)
+  - A0PreMainTime/A0PreMainTime (0.2.0)
+  - A0PreMainTime/TimeMonitor (0.2.0)
 
 DEPENDENCIES:
   - A0PreMainTime (from `../`)
@@ -9,8 +13,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  A0PreMainTime: 8c3ff7abf4392a745b6ed1017c6b4e3c96415f0d
+  A0PreMainTime: 4e6094d63b7dc6a3b28bed55b1d15594b3ec5690
 
 PODFILE CHECKSUM: 47e398d7b3e168135169f01e814574f5708fee06
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.5.3

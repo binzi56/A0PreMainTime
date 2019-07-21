@@ -1,5 +1,5 @@
 
-#import "DYStartTime.h"
+#import "ZBStartTime.h"
 #include <unistd.h>
 #include <mach-o/getsect.h>
 #include <mach-o/loader.h>
@@ -11,9 +11,9 @@
 #import <objc/message.h>
 
 
-DYStartTimeInitializerInfo *initializerTimeInfo = nil;
+ZBStartTimeInitializerInfo *initializerTimeInfo = nil;
 
-@interface DYInitializerInfo(){
+@interface ZBInitializerInfo(){
     @package
     CFAbsoluteTime _start;
     CFAbsoluteTime _end;
@@ -21,7 +21,7 @@ DYStartTimeInitializerInfo *initializerTimeInfo = nil;
 }
 
 @end
-@implementation DYInitializerInfo
+@implementation ZBInitializerInfo
 
 - (CFAbsoluteTime)duration {
     return _end - _start;
@@ -34,20 +34,20 @@ DYStartTimeInitializerInfo *initializerTimeInfo = nil;
 
 @end
 
-@interface DYStartTimeInitializerInfo ()
+@interface ZBStartTimeInitializerInfo ()
 @property (assign, nonatomic) NSTimeInterval start;
 @property (assign, nonatomic) NSTimeInterval end;
 @property (assign, nonatomic) NSTimeInterval duration;
-@property (copy, nonatomic) NSMutableArray  <DYInitializerInfo *>*infos;
+@property (copy, nonatomic) NSMutableArray  <ZBInitializerInfo *>*infos;
 @end
-@implementation DYStartTimeInitializerInfo
+@implementation ZBStartTimeInitializerInfo
 
 /**
  此处保证mutableCopy进行
  https://blog.csdn.net/souprock/article/details/81128144
  
  */
-- (void)setInfos:(NSMutableArray<DYInitializerInfo *> *)infos
+- (void)setInfos:(NSMutableArray<ZBInitializerInfo *> *)infos
 {
     if (_infos != nil) {
         _infos = nil;
@@ -102,7 +102,7 @@ void myInitFunc_Initializer(int argc, const char* argv[], const char* envp[], co
     NSString *cost = [NSString stringWithFormat:@"%p",func];
     
 
-    DYInitializerInfo *info = [DYInitializerInfo new];
+    ZBInitializerInfo *info = [ZBInitializerInfo new];
     info->_start = start;
     info->_end = end;
     info->_funcName = cost;
@@ -139,8 +139,8 @@ static void hookModInitFunc(){
     g_aslr = (MemoryType)mhp;
 }
 
-@interface DYStartTimeInitializer : NSObject @end
-@implementation DYStartTimeInitializer
+@interface ZBStartTimeInitializer : NSObject @end
+@implementation ZBStartTimeInitializer
 
 
 //static uint64_t loadTime;
@@ -207,7 +207,7 @@ static void hookModInitFunc(){
 //        }
 //    }
     
-    initializerTimeInfo = [DYStartTimeInitializerInfo new];
+    initializerTimeInfo = [ZBStartTimeInitializerInfo new];
     initializerTimeInfo.infos = [NSMutableArray array];
     
     g_initializer = new std::vector<MemoryType>();
@@ -233,7 +233,7 @@ static void hookModInitFunc(){
 //    }
 //
 //#ifdef DEBUG
-//    printf("\n======================= DYTimeMonitor measure for Load time ============================\n\t\t\t\t\t\t\tTotal for Load time: %f milliseconds(%lu)\n", sum * 1000.0, (unsigned long)objc_load_infos.count);
+//    printf("\n======================= ZBTimeMonitor measure for Load time ============================\n\t\t\t\t\t\t\tTotal for Load time: %f milliseconds(%lu)\n", sum * 1000.0, (unsigned long)objc_load_infos.count);
 //    for (NSDictionary *info in infos) {
 //        NSString *name = info[@"name"];
 //        printf("%40s for Load time time: %f milliseconds(%.2f%%)\n", [name cStringUsingEncoding:NSUTF8StringEncoding], [info[@"interval_second"] doubleValue] * 1000.0, (double)([info[@"interval_second"] doubleValue] / sum) * 100.0);

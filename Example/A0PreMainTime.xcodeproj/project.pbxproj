@@ -37,12 +37,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		09B21CC54B9C9E1365DF6C76 /* Pods-A0PreMainTime_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-A0PreMainTime_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-A0PreMainTime_Example/Pods-A0PreMainTime_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		11D9287ACD28429DF7656751 /* Pods-A0PreMainTime_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-A0PreMainTime_Tests.debug.xcconfig"; path = "Target Support Files/Pods-A0PreMainTime_Tests/Pods-A0PreMainTime_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		1510B7A82EE6B7B00B0CF015 /* Pods-A0PreMainTime_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-A0PreMainTime_Example.debug.xcconfig"; path = "Target Support Files/Pods-A0PreMainTime_Example/Pods-A0PreMainTime_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		2945ED743B6A39CCE13BEDA5 /* Pods-A0PreMainTime_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-A0PreMainTime_Example.release.xcconfig"; path = "Target Support Files/Pods-A0PreMainTime_Example/Pods-A0PreMainTime_Example.release.xcconfig"; sourceTree = "<group>"; };
 		41FA2276919D3638CF651A51 /* Pods_A0PreMainTime_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_A0PreMainTime_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4619CB8A186B86BFFFB63BA0 /* Pods-A0PreMainTime_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-A0PreMainTime_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-A0PreMainTime_Tests/Pods-A0PreMainTime_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		4941CFB9E52103160BC40766 /* A0PreMainTime.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = A0PreMainTime.podspec; path = ../A0PreMainTime.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		58400A2615DFF1A3A4DEB6A6 /* Pods_A0PreMainTime_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_A0PreMainTime_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		597F2A0882628BF3CBC56CC2 /* Pods-A0PreMainTime_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-A0PreMainTime_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-A0PreMainTime_Example/Pods-A0PreMainTime_Example.release.xcconfig"; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* A0PreMainTime_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = A0PreMainTime_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -66,6 +69,7 @@
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		71CF9326C7350FE0AD578138 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		A6430C9964EFBDF6AC941C05 /* Pods-A0PreMainTime_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-A0PreMainTime_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-A0PreMainTime_Tests/Pods-A0PreMainTime_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		BDBB78EF9E965FF7B9A99DF4 /* Pods-A0PreMainTime_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-A0PreMainTime_Tests.release.xcconfig"; path = "Target Support Files/Pods-A0PreMainTime_Tests/Pods-A0PreMainTime_Tests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -192,6 +196,10 @@
 				2945ED743B6A39CCE13BEDA5 /* Pods-A0PreMainTime_Example.release.xcconfig */,
 				11D9287ACD28429DF7656751 /* Pods-A0PreMainTime_Tests.debug.xcconfig */,
 				BDBB78EF9E965FF7B9A99DF4 /* Pods-A0PreMainTime_Tests.release.xcconfig */,
+				09B21CC54B9C9E1365DF6C76 /* Pods-A0PreMainTime_Example.debug.xcconfig */,
+				597F2A0882628BF3CBC56CC2 /* Pods-A0PreMainTime_Example.release.xcconfig */,
+				4619CB8A186B86BFFFB63BA0 /* Pods-A0PreMainTime_Tests.debug.xcconfig */,
+				A6430C9964EFBDF6AC941C05 /* Pods-A0PreMainTime_Tests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -300,21 +308,18 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-A0PreMainTime_Example/Pods-A0PreMainTime_Example-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-A0PreMainTime_Example/Pods-A0PreMainTime_Example-frameworks.sh",
+				"${PODS_ROOT}/../../A0PreMainTime/Framework/A0PreMainTime.framework",
 				"${BUILT_PRODUCTS_DIR}/A0PreMainTime/A0PreMainTime.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/A0PreMainTime.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-A0PreMainTime_Example/Pods-A0PreMainTime_Example-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-A0PreMainTime_Example/Pods-A0PreMainTime_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		2ABAA1E9B5B1680A15798B70 /* [CP] Check Pods Manifest.lock */ = {
@@ -322,15 +327,11 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-A0PreMainTime_Tests-checkManifestLockResult.txt",
 			);
@@ -344,15 +345,11 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-A0PreMainTime_Example-checkManifestLockResult.txt",
 			);
@@ -495,7 +492,7 @@
 		};
 		6003F5C0195388D20070C39A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1510B7A82EE6B7B00B0CF015 /* Pods-A0PreMainTime_Example.debug.xcconfig */;
+			baseConfigurationReference = 09B21CC54B9C9E1365DF6C76 /* Pods-A0PreMainTime_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -511,7 +508,7 @@
 		};
 		6003F5C1195388D20070C39A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2945ED743B6A39CCE13BEDA5 /* Pods-A0PreMainTime_Example.release.xcconfig */;
+			baseConfigurationReference = 597F2A0882628BF3CBC56CC2 /* Pods-A0PreMainTime_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -527,7 +524,7 @@
 		};
 		6003F5C3195388D20070C39A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 11D9287ACD28429DF7656751 /* Pods-A0PreMainTime_Tests.debug.xcconfig */;
+			baseConfigurationReference = 4619CB8A186B86BFFFB63BA0 /* Pods-A0PreMainTime_Tests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -552,7 +549,7 @@
 		};
 		6003F5C4195388D20070C39A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BDBB78EF9E965FF7B9A99DF4 /* Pods-A0PreMainTime_Tests.release.xcconfig */;
+			baseConfigurationReference = A6430C9964EFBDF6AC941C05 /* Pods-A0PreMainTime_Tests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (

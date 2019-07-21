@@ -1,11 +1,11 @@
 //
-//  DYStartTime.m
+//  ZBStartTime.m
 //
 //  Created by shuaibin on 2019/6/12.
 //  Copyright © 2019 shuaibin. All rights reserved.
 //
 
-#import "DYStartTime.h"
+#import "ZBStartTime.h"
 #include <objc/message.h>
 #include <dlfcn.h>
 #include <mach-o/dyld.h>
@@ -15,20 +15,20 @@
 #import <sys/sysctl.h>
 #import <mach/mach.h>
 
-DYStartTimeLoadInfo *loadInfo = nil;
-DYStartTimeAttributeConstructorInfo *attributeConstructorInfoTimeInfo = nil;
+ZBStartTimeLoadInfo *loadInfo = nil;
+ZBStartTimeAttributeConstructorInfo *attributeConstructorInfoTimeInfo = nil;
 
 NSTimeInterval exeStartTime;
 NSTimeInterval exeToRunImageInitializerTime;
 
-@interface DYLoadInfoWrapper () {
+@interface ZBLoadInfoWrapper () {
     @package
-    NSMutableArray <DYLoadInfo *> *_infos;
+    NSMutableArray <ZBLoadInfo *> *_infos;
 }
 - (instancetype)initWithClass:(Class)cls;
 @end
 
-@implementation DYLoadInfoWrapper
+@implementation ZBLoadInfoWrapper
 - (instancetype)initWithClass:(Class)cls {
     if (self = [super init]) {
         _infos = [NSMutableArray array];
@@ -37,12 +37,12 @@ NSTimeInterval exeToRunImageInitializerTime;
     return self;
 }
 
-- (void)insertLoadInfo:(DYLoadInfo *)info {
+- (void)insertLoadInfo:(ZBLoadInfo *)info {
     [_infos insertObject:info atIndex:0];
 }
 @end
 
-@interface DYLoadInfo () {
+@interface ZBLoadInfo () {
     @package
     SEL _sel;
     CFAbsoluteTime _start;
@@ -53,7 +53,7 @@ NSTimeInterval exeToRunImageInitializerTime;
 - (instancetype)initWithCategory:(Category)cat;
 @end
 
-@implementation DYLoadInfo
+@implementation ZBLoadInfo
 - (instancetype)initWithClass:(Class)cls {
     if (!cls) return nil;
     if (self = [super init]) {
@@ -82,16 +82,16 @@ NSTimeInterval exeToRunImageInitializerTime;
 }
 @end
 
-@interface DYStartTimeLoadInfo ()
+@interface ZBStartTimeLoadInfo ()
 @property (assign, nonatomic) NSTimeInterval start;
 @property (assign, nonatomic) NSTimeInterval end;
 @property (assign, nonatomic) NSTimeInterval duration;
-@property (copy, nonatomic) NSMutableArray <DYLoadInfoWrapper *> *infos;
+@property (copy, nonatomic) NSMutableArray <ZBLoadInfoWrapper *> *infos;
 
 @end
-@implementation DYStartTimeLoadInfo
+@implementation ZBStartTimeLoadInfo
 
-- (void)setInfos:(NSMutableArray<DYLoadInfoWrapper *> *)infos
+- (void)setInfos:(NSMutableArray<ZBLoadInfoWrapper *> *)infos
 {
     if (_infos != nil) {
         _infos = nil;
@@ -102,24 +102,24 @@ NSTimeInterval exeToRunImageInitializerTime;
 
 @end
 
-@interface DYStartTimeAttributeConstructorInfo()
+@interface ZBStartTimeAttributeConstructorInfo()
 @property (assign, nonatomic) NSTimeInterval start;
 @property (assign, nonatomic) NSTimeInterval end;
 @property (assign, nonatomic) NSTimeInterval duration;
 @end
-@implementation DYStartTimeAttributeConstructorInfo
+@implementation ZBStartTimeAttributeConstructorInfo
 @end
 
 static SEL getRandomLoadSelector(void);
 static bool shouldRejectClass(NSString *name);
 static bool isSelfDefinedImage(const char *imageName);
-static void hookAllLoadMethods(DYLoadInfoWrapper *infoWrapper);
-static void swizzleLoadMethod(Class cls, Method method, DYLoadInfo *info);
-static NSArray <DYLoadInfo *> *getNoLazyArray(const struct mach_header *mhdr);
+static void hookAllLoadMethods(ZBLoadInfoWrapper *infoWrapper);
+static void swizzleLoadMethod(Class cls, Method method, ZBLoadInfo *info);
+static NSArray <ZBLoadInfo *> *getNoLazyArray(const struct mach_header *mhdr);
 static const struct mach_header **copyAllSelfDefinedImageHeader(unsigned int *outCount);
-static NSArray <DYLoadInfoWrapper *> *prepareMeasureForImageHeader(const struct mach_header *mhdr);
+static NSArray <ZBLoadInfoWrapper *> *prepareMeasureForImageHeader(const struct mach_header *mhdr);
 static void *getDataSection(const struct mach_header *mhdr, const char *sectname, size_t *bytes);
-static NSDictionary <NSString *, DYLoadInfoWrapper *> *groupNoLazyArray(NSArray <DYLoadInfo *> *noLazyArray);
+static NSDictionary <NSString *, ZBLoadInfoWrapper *> *groupNoLazyArray(NSArray <ZBLoadInfo *> *noLazyArray);
 
 static void *getDataSection(const struct mach_header *mhdr, const char *sectname, size_t *bytes) {
     void *data = getsectiondata((void *)mhdr, "__DATA", sectname, bytes);
@@ -183,32 +183,32 @@ static bool shouldRejectClass(NSString *name) {
     return [rejectClses containsObject:name];
 }
 
-static NSArray <DYLoadInfo *> *getNoLazyArray(const struct mach_header *mhdr) {
+static NSArray <ZBLoadInfo *> *getNoLazyArray(const struct mach_header *mhdr) {
     NSMutableArray *noLazyArray = [NSMutableArray new];
     unsigned long bytes = 0;
     Class *clses = (Class *)getDataSection(mhdr, "__objc_nlclslist", &bytes);
     for (unsigned int i = 0; i < bytes / sizeof(Class); i++) {
-        DYLoadInfo *info = [[DYLoadInfo alloc] initWithClass:clses[i]];
+        ZBLoadInfo *info = [[ZBLoadInfo alloc] initWithClass:clses[i]];
         if (!shouldRejectClass(info.clsname)) [noLazyArray addObject:info];
     }
     
     bytes = 0;
     Category *cats = getDataSection(mhdr, "__objc_nlcatlist", &bytes);
     for (unsigned int i = 0; i < bytes / sizeof(Category); i++) {
-        DYLoadInfo *info = [[DYLoadInfo alloc] initWithCategory:cats[i]];
+        ZBLoadInfo *info = [[ZBLoadInfo alloc] initWithCategory:cats[i]];
         if (!shouldRejectClass(info.clsname)) [noLazyArray addObject:info];
     }
     
     return noLazyArray;
 }
 
-static NSDictionary <NSString *, DYLoadInfoWrapper *> *groupNoLazyArray(NSArray <DYLoadInfo *> *noLazyArray) {
+static NSDictionary <NSString *, ZBLoadInfoWrapper *> *groupNoLazyArray(NSArray <ZBLoadInfo *> *noLazyArray) {
     NSMutableDictionary *noLazyMap = [NSMutableDictionary dictionary];
-    for (DYLoadInfo *info in noLazyArray) {
-        DYLoadInfoWrapper *infoWrapper = noLazyMap[info.clsname];
+    for (ZBLoadInfo *info in noLazyArray) {
+        ZBLoadInfoWrapper *infoWrapper = noLazyMap[info.clsname];
         if (!infoWrapper) {
             Class cls = objc_getClass([info.clsname cStringUsingEncoding:NSUTF8StringEncoding]);
-            infoWrapper = [[DYLoadInfoWrapper alloc] initWithClass:cls];
+            infoWrapper = [[ZBLoadInfoWrapper alloc] initWithClass:cls];
         }
         [infoWrapper insertLoadInfo:info];
         noLazyMap[info.clsname] = infoWrapper;
@@ -217,7 +217,7 @@ static NSDictionary <NSString *, DYLoadInfoWrapper *> *groupNoLazyArray(NSArray 
 }
 
 static BOOL swizzleLoadIsFirst = YES;
-static void swizzleLoadMethod(Class cls, Method method, DYLoadInfo *info) {
+static void swizzleLoadMethod(Class cls, Method method, ZBLoadInfo *info) {
 retry:
     do {
         SEL hookSel = getRandomLoadSelector();
@@ -243,7 +243,7 @@ retry:
     } while(0);
 }
 
-static void hookAllLoadMethods(DYLoadInfoWrapper *infoWrapper) {
+static void hookAllLoadMethods(ZBLoadInfoWrapper *infoWrapper) {
     unsigned int count = 0;
     Class metaCls = object_getClass(infoWrapper.cls);
     Method *methodList = class_copyMethodList(metaCls, &count);
@@ -253,9 +253,9 @@ static void hookAllLoadMethods(DYLoadInfoWrapper *infoWrapper) {
         SEL sel = method_getName(method);
         const char *name = sel_getName(sel);
         if (!strcmp(name, "load")) {
-            DYLoadInfo *info = nil;
+            ZBLoadInfo *info = nil;
             if (j > infoWrapper.infos.count - 1) {
-                info = [[DYLoadInfo alloc] initWithClass:infoWrapper.cls];
+                info = [[ZBLoadInfo alloc] initWithClass:infoWrapper.cls];
                 [infoWrapper insertLoadInfo:info];
             } else {
                 info = infoWrapper.infos[j];
@@ -268,12 +268,12 @@ static void hookAllLoadMethods(DYLoadInfoWrapper *infoWrapper) {
     free(methodList);
 }
 
-static NSArray <DYLoadInfoWrapper *> *prepareMeasureForImageHeader(const struct mach_header *mhdr) {
-    NSArray <DYLoadInfo *> *infos = getNoLazyArray(mhdr);
-    NSDictionary <NSString *, DYLoadInfoWrapper *> *groupedInfos = groupNoLazyArray(infos);
+static NSArray <ZBLoadInfoWrapper *> *prepareMeasureForImageHeader(const struct mach_header *mhdr) {
+    NSArray <ZBLoadInfo *> *infos = getNoLazyArray(mhdr);
+    NSDictionary <NSString *, ZBLoadInfoWrapper *> *groupedInfos = groupNoLazyArray(infos);
     
     for (NSString *clsname in groupedInfos.allKeys) {
-        DYLoadInfoWrapper *infoWrapper = groupedInfos[clsname];
+        ZBLoadInfoWrapper *infoWrapper = groupedInfos[clsname];
         hookAllLoadMethods(infoWrapper);
     }
     
@@ -281,20 +281,20 @@ static NSArray <DYLoadInfoWrapper *> *prepareMeasureForImageHeader(const struct 
 }
 
 __attribute__((constructor)) static void LoadMeasure_Initializer(void) {
-    loadInfo = [[DYStartTimeLoadInfo alloc] init];
+    loadInfo = [[ZBStartTimeLoadInfo alloc] init];
     loadInfo.infos = [NSMutableArray array];
-    attributeConstructorInfoTimeInfo = [[DYStartTimeAttributeConstructorInfo alloc] init];
+    attributeConstructorInfoTimeInfo = [[ZBStartTimeAttributeConstructorInfo alloc] init];
     
     //设置初始化开始时间
     attributeConstructorInfoTimeInfo.start = [[NSDate date] timeIntervalSince1970];
     
     unsigned int count = 0;
     const struct mach_header **mhdrList = copyAllSelfDefinedImageHeader(&count);
-    NSMutableArray <DYLoadInfoWrapper *> *allInfoWappers = [NSMutableArray array];
+    NSMutableArray <ZBLoadInfoWrapper *> *allInfoWappers = [NSMutableArray array];
     
     for (unsigned int i = 0; i < count; i++) {
         const struct mach_header *mhdr = mhdrList[i];
-        NSArray <DYLoadInfoWrapper *> *infoWrappers = prepareMeasureForImageHeader(mhdr);
+        NSArray <ZBLoadInfoWrapper *> *infoWrappers = prepareMeasureForImageHeader(mhdr);
         [allInfoWappers addObjectsFromArray:infoWrappers];
     }
     
@@ -304,7 +304,7 @@ __attribute__((constructor)) static void LoadMeasure_Initializer(void) {
     //设置初始化结束时间
     attributeConstructorInfoTimeInfo.end = [[NSDate date] timeIntervalSince1970];
     //设置系统执行开始时间
-    exeStartTime = [DYStartTime processStartTime] / 1000.0;
+    exeStartTime = [ZBStartTime processStartTime] / 1000.0;
     //设置exe -> __attribute__((constructor))时间间隔
     exeToRunImageInitializerTime = attributeConstructorInfoTimeInfo.start - exeStartTime;
     //设置initializer加载时间
@@ -315,14 +315,14 @@ __attribute__((constructor)) static void LoadMeasure_Initializer(void) {
     dispatch_async(dispatch_get_main_queue(), ^{
         //此方法在main函数创建完主线程之后执行
         NSMutableArray *infos = [NSMutableArray array];
-        for (DYLoadInfoWrapper *infoWrapper in loadInfo.infos) {
+        for (ZBLoadInfoWrapper *infoWrapper in loadInfo.infos) {
             [infos addObjectsFromArray:infoWrapper.infos];
         }
         NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"duration" ascending:NO];
         [infos sortUsingDescriptors:@[descriptor]];
         
         CFAbsoluteTime totalDuration = 0;
-        for (DYLoadInfo *info in infos) {
+        for (ZBLoadInfo *info in infos) {
             totalDuration += info.duration;
         }
         
@@ -336,7 +336,7 @@ __attribute__((constructor)) static void LoadMeasure_Initializer(void) {
 
 NSString *printAttributeConstructorInfo(void){
     NSMutableString *resultStr = [NSMutableString string];
-    [resultStr appendFormat:@"\n======================= DYTimeMonitor measure __attribute__((constructor)) time ============================\n\t\t\t\tTotal __attribute__((constructor)) time: %f milliseconds\n", attributeConstructorInfoTimeInfo.duration * 1000.0];
+    [resultStr appendFormat:@"\n======================= ZBTimeMonitor measure __attribute__((constructor)) time ============================\n\t\t\t\tTotal __attribute__((constructor)) time: %f milliseconds\n", attributeConstructorInfoTimeInfo.duration * 1000.0];
     [resultStr appendFormat:@"\t\t\t\t\t\t\t\tstart time: %f \n", attributeConstructorInfoTimeInfo.start];
     [resultStr appendFormat:@"\t\t\t\t\t\t\t\tend time: %f \n\n", attributeConstructorInfoTimeInfo.end];
     return resultStr;
@@ -344,20 +344,20 @@ NSString *printAttributeConstructorInfo(void){
 
 NSString *printLoadInfo(void){
     NSMutableArray *infos = [NSMutableArray array];
-    for (DYLoadInfoWrapper *infoWrapper in loadInfo.infos) {
+    for (ZBLoadInfoWrapper *infoWrapper in loadInfo.infos) {
         [infos addObjectsFromArray:infoWrapper.infos];
     }
     NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"duration" ascending:NO];
     [infos sortUsingDescriptors:@[descriptor]];
     
     CFAbsoluteTime totalDuration = 0;
-    for (DYLoadInfo *info in infos) {
+    for (ZBLoadInfo *info in infos) {
         totalDuration += info.duration;
     }
     
     NSMutableString *resultStr = [NSMutableString string];
-    [resultStr appendFormat:@"\n======================= DYTimeMonitor measure load time ============================\n\t\t\t\t\t\t\tTotal load time: %f milliseconds(%ld)\n", totalDuration * 1000, (unsigned long)infos.count];
-    for (DYLoadInfo *info in infos) {
+    [resultStr appendFormat:@"\n======================= ZBTimeMonitor measure load time ============================\n\t\t\t\t\t\t\tTotal load time: %f milliseconds(%ld)\n", totalDuration * 1000, (unsigned long)infos.count];
+    for (ZBLoadInfo *info in infos) {
         NSString *clsname = [NSString stringWithFormat:@"%@", info.clsname];
         if (info.catname) clsname = [NSString stringWithFormat:@"%@(%@)", clsname, info.catname];
         [resultStr appendFormat:@"%40s load time: %f milliseconds(%.2f%%)\n", [clsname cStringUsingEncoding:NSUTF8StringEncoding], info.duration * 1000, (double)(info.duration / totalDuration) * 100.0];
@@ -367,10 +367,10 @@ NSString *printLoadInfo(void){
 }
 
 
-@interface DYStartTime ()
+@interface ZBStartTime ()
 
 @end
-@implementation DYStartTime
+@implementation ZBStartTime
 
 #pragma mark - 获取进程开始时间
 + (BOOL)processInfoForPID:(int)pid procInfo:(struct kinfo_proc*)procInfo

@@ -1,8 +1,8 @@
 //
-//  DYTimeMonitorManager.h
-//  DYTimeMonitor
+//  ZBTimeMonitorManager.h
+//  TimeMonitor
 //
-//  Created by shuaibin on 2019/6/14.
+//  Created by shuaibin on 2019/7/21.
 //  Copyright © 2019 shuaibin. All rights reserved.
 //
 //  打点使用说明:
@@ -10,18 +10,18 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DYTimeMonitorModel.h"
+#import "ZBTimeMonitorModel.h"
 
-typedef NS_ENUM(NSUInteger, DYTimeMonitorRecordType) {
-    DYTimeMonitorRecordTypeMedian = 0,  //记录中间值(记录距离上次打点的时间间隔)
-    DYTimeMonitorRecordTypeContinuous,  //记录连续值(记录距离首次打点的时间间隔)
+typedef NS_ENUM(NSUInteger, ZBTimeMonitorRecordType) {
+    ZBTimeMonitorRecordTypeMedian = 0,  //记录中间值(记录距离上次打点的时间间隔)
+    ZBTimeMonitorRecordTypeContinuous,  //记录连续值(记录距离首次打点的时间间隔)
 };
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DYTimeMonitorManager : NSObject
+@interface ZBTimeMonitorManager : NSObject
 
-@property (nonatomic, strong, readonly) NSMutableDictionary <NSString *, NSMutableArray<DYTimeMonitorModel *> *> *data;
+@property (nonatomic, strong, readonly) NSMutableDictionary <NSString *, NSMutableArray<ZBTimeMonitorModel *> *> *data;
 
 
 /**
@@ -59,8 +59,8 @@ NS_ASSUME_NONNULL_BEGIN
  @param recordType 打点类型
  @return 该业务所有打点
  */
-- (NSMutableArray<DYTimeMonitorModel *> *)getRecordWithType:(NSUInteger)type
-                                                 recordType:(DYTimeMonitorRecordType)recordType;
+- (NSMutableArray<ZBTimeMonitorModel *> *)getRecordWithType:(NSUInteger)type
+                                                 recordType:(ZBTimeMonitorRecordType)recordType;
 
 /**
  重置某个业务
@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param type 业务类型
  @param recordType 记录类型
  */
-- (void)showRecordWithType:(NSUInteger)type recordType:(DYTimeMonitorRecordType)recordType;
+- (void)showRecordWithType:(NSUInteger)type recordType:(ZBTimeMonitorRecordType)recordType;
 
 @end
 
