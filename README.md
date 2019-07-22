@@ -34,7 +34,7 @@ pod 'A0PreMainTime/TimeMonitor'
 ```
 All parameters are placed in the ZBStartTime.h file, please refer to your own.
 
-`subspecs => PreMainTime`
+`subspecs => TimeMonitor`
 ```
 #import <A0PreMainTime/ZBTimeMonitorManager.h>
 ```
