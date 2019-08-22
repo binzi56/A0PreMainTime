@@ -7,12 +7,13 @@
 //
 
 #import "ZBAppDelegate.h"
+#import "ZBStartTimeManager.h"
 
 @implementation ZBAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    [ZBStartTimeManager printfPreMainInfo];
     return YES;
 }
 

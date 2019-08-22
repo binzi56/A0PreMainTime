@@ -47,3 +47,10 @@ At this point your workspace should build without error. If you are having probl
 ## Author
 
 *   [Fire Jade](https://www.jianshu.com/u/715753f68a27)
+
+## Other
+### Auto Building Shell
+`autoBuild.sh` are used to automatically build the framework
+```
+./autoBuild.sh
+```

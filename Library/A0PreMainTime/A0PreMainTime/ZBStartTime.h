@@ -82,6 +82,8 @@ extern NSTimeInterval exeToRunImageInitializerTime;
 /******************** 自定义打印一些相关信息 ****************************/
 //load
 extern NSString *printLoadInfo(void);
+//initializer
+extern NSString *printInitializerInfo(void);
 //__attribute__((constructor))
 extern NSString *printAttributeConstructorInfo(void);
 

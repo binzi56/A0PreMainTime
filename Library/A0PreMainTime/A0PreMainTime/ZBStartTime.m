@@ -336,7 +336,7 @@ __attribute__((constructor)) static void LoadMeasure_Initializer(void) {
 
 NSString *printAttributeConstructorInfo(void){
     NSMutableString *resultStr = [NSMutableString string];
-    [resultStr appendFormat:@"\n======================= ZBTimeMonitor measure __attribute__((constructor)) time ============================\n\t\t\t\tTotal __attribute__((constructor)) time: %f milliseconds\n", attributeConstructorInfoTimeInfo.duration * 1000.0];
+    [resultStr appendFormat:@"\n============ ZBTimeMonitor measure __attribute__((constructor)) time ============\n\t\t\t\tTotal __attribute__((constructor)) time: %f milliseconds\n", attributeConstructorInfoTimeInfo.duration * 1000.0];
     [resultStr appendFormat:@"\t\t\t\t\t\t\t\tstart time: %f \n", attributeConstructorInfoTimeInfo.start];
     [resultStr appendFormat:@"\t\t\t\t\t\t\t\tend time: %f \n\n", attributeConstructorInfoTimeInfo.end];
     return resultStr;
@@ -356,7 +356,7 @@ NSString *printLoadInfo(void){
     }
     
     NSMutableString *resultStr = [NSMutableString string];
-    [resultStr appendFormat:@"\n======================= ZBTimeMonitor measure load time ============================\n\t\t\t\t\t\t\tTotal load time: %f milliseconds(%ld)\n", totalDuration * 1000, (unsigned long)infos.count];
+    [resultStr appendFormat:@"\n=================== ZBTimeMonitor measure load time ======================\n\t\t\t\t\t\t\tTotal load time: %f milliseconds(%ld)\n", totalDuration * 1000, (unsigned long)infos.count];
     for (ZBLoadInfo *info in infos) {
         NSString *clsname = [NSString stringWithFormat:@"%@", info.clsname];
         if (info.catname) clsname = [NSString stringWithFormat:@"%@(%@)", clsname, info.catname];
@@ -365,6 +365,26 @@ NSString *printLoadInfo(void){
     [resultStr appendFormat:@"\n\n"];
     return resultStr;
 }
+
+//打印Initializer
+NSString *printInitializerInfo(void){
+    NSMutableArray *infos = [NSMutableArray array];
+    for (ZBInitializerInfo *funcInfo in initializerTimeInfo.infos) {
+        [infos addObject:funcInfo];
+    }
+    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"duration" ascending:NO];
+    [infos sortUsingDescriptors:@[descriptor]];
+    
+    NSMutableString *resultStr = [NSMutableString string];
+    [resultStr appendFormat:@"\n=========== ZBTimeMonitor measure initializer time ============\n\t\t\t\t\t\t\tTotal Initializer time: %f milliseconds(%ld)\n", initializerTimeInfo.duration * 1000.0, (unsigned long)infos.count];
+    
+    for (ZBInitializerInfo *funcInfo in infos) {
+        [resultStr appendFormat:@"%40s initializer time: %f milliseconds(%.2f%%)\n", [funcInfo.funcName cStringUsingEncoding:NSUTF8StringEncoding], funcInfo.duration * 1000.0, (double)(funcInfo.duration / initializerTimeInfo.duration) * 100.0];
+    }
+    [resultStr appendFormat:@"\n\n\n\n"];
+    return resultStr;
+}
+
 
 
 @interface ZBStartTime ()
