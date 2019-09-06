@@ -26,8 +26,8 @@ DEVICE_DIR_A=${DEVICE_A}/${TARGET_NAME}
 echo "DEVICE_DIR_A=${DEVICE_DIR_A}"
 
 #模拟器build生成的.framework文件路径
-SIMULATOR_DIR_A=${build_DIR}/${BUILD_MODE}-iphonesimulator/${TARGET_NAME}.framework/${TARGET_NAME}
-echo "SIMULATOR_DIR_A=${SIMULATOR_DIR_A}"
+SIMULATOR_DIR=${build_DIR}/${BUILD_MODE}-iphonesimulator/${TARGET_NAME}.framework
+echo "SIMULATOR_DIR=${SIMULATOR_DIR}"
 
 #目标文件夹路径
 INSTALL_DIR=${TARGET_DIR}/../../A0PreMainTime/Framework
@@ -65,13 +65,20 @@ echo "创建文件夹失败"
 fi
 
 
+######################
+# Build Frameworks
+######################
 #build之前clean一下
-xcodebuild -target ${TARGET_NAME} clean
+xcrun xcodebuild -target ${TARGET_NAME} clean
 #模拟器build
-xcodebuild -target ${TARGET_NAME} -configuration ${BUILD_MODE} -sdk iphonesimulator
+xcrun xcodebuild BITCODE_GENERATION_MODE=bitcode OTHER_CFLAGS="-fembed-bitcode" -target ${TARGET_NAME} -sdk iphonesimulator -configuration ${BUILD_MODE} ARCHS="i386 x86_64" ONLY_ACTIVE_ARCH=NO build CONFIGURATION_BUILD_DIR=${build_DIR}/${BUILD_MODE}-iphonesimulator
 #真机build
-xcodebuild -target ${TARGET_NAME} -configuration ${BUILD_MODE} -sdk iphoneos
+xcrun xcodebuild BITCODE_GENERATION_MODE=bitcode OTHER_CFLAGS="-fembed-bitcode" -target ${TARGET_NAME} -sdk iphoneos -configuration ${BUILD_MODE} ARCHS="armv7 armv7s arm64" ONLY_ACTIVE_ARCH=NO build CONFIGURATION_BUILD_DIR=${build_DIR}/${BUILD_MODE}-iphoneos
 
+
+######################
+# Create directory for universal
+######################
 #复制framework到目标文件夹
 cp -R "${DEVICE_A}" "${INSTALL_DIR}"
 
@@ -82,7 +89,18 @@ rm -rf "${INSTALL_DIR_A}"
 fi
 
 #合成模拟器和真机.framework包
-lipo -create "${DEVICE_DIR_A}" "${SIMULATOR_DIR_A}" -output "${INSTALL_DIR_A}"
+lipo "${DEVICE_DIR_A}" "${SIMULATOR_DIR}/${TARGET_NAME}" -create -output "${INSTALL_DIR_A}" | echo
+
+#For Swift framework, Swiftmodule needs to be copied in the universal framework
+if [ -d "${SIMULATOR_DIR}/Modules/${TARGET_NAME}.swiftmodule/" ]; then
+cp -f ${SIMULATOR_LIBRARY_PATH}/Modules/${TARGET_NAME}.swiftmodule/* "${INSTALL_A}/Modules/${TARGET_NAME}.swiftmodule/" | echo
+fi
+
+if [ -d "${DEVICE_A}/Modules/${TARGET_NAME}.swiftmodule/" ]; then
+cp -f ${DEVICE_A}/Modules/${TARGET_NAME}.swiftmodule/* "${INSTALL_A}/Modules/${TARGET_NAME}.swiftmodule/" | echo
+fi
+
+
 #打开目标文件夹
 #open "${INSTALL_DIR}"
 
